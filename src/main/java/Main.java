@@ -1,16 +1,19 @@
 import org.jpmml.evaluator.*;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         // Building a model evaluator from a PMML file
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        InputStream is = loader.getResourceAsStream("Human_dress.pmml");
         Evaluator evaluator = new LoadingModelEvaluatorBuilder()
                 .setLocatable(false)
                 .setVisitors(new DefaultVisitorBattery())
                 //.setOutputFilter(OutputFilters.KEEP_FINAL_RESULTS)
-                .load(new File("Human_dress.pmml"))
+                .load(is)
                 .build();
 
         evaluator.verify();
